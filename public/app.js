@@ -75,10 +75,41 @@
   let animationFrameId = null;
   let isPaused = false;
   let tickerOffset = 0;
+  let isDragging = false;
+  let startX = 0;
 
   if (carouselSection) {
     carouselSection.addEventListener('mouseenter', () => { isPaused = true; });
-    carouselSection.addEventListener('mouseleave', () => { isPaused = false; });
+    carouselSection.addEventListener('mouseleave', () => { if (!isDragging) isPaused = false; });
+
+    // Touch & Pointer drag gestures for mobile/desktop
+    const handleDragStart = (e) => {
+      isDragging = true;
+      isPaused = true;
+      startX = e.touches ? e.touches[0].clientX : e.clientX;
+    };
+
+    const handleDragMove = (e) => {
+      if (!isDragging) return;
+      const currentX = e.touches ? e.touches[0].clientX : e.clientX;
+      const diff = currentX - startX;
+      startX = currentX;
+      tickerOffset += diff * 1.2;
+    };
+
+    const handleDragEnd = () => {
+      if (!isDragging) return;
+      isDragging = false;
+      isPaused = false;
+    };
+
+    carouselSection.addEventListener('touchstart', handleDragStart, { passive: true });
+    carouselSection.addEventListener('touchmove', handleDragMove, { passive: true });
+    carouselSection.addEventListener('touchend', handleDragEnd, { passive: true });
+
+    carouselSection.addEventListener('mousedown', handleDragStart);
+    window.addEventListener('mousemove', handleDragMove);
+    window.addEventListener('mouseup', handleDragEnd);
   }
 
   function renderCarousel() {
@@ -106,18 +137,19 @@
       listToRender = [...listToRender, ...photos];
     }
 
-    const cardWidth = window.innerWidth < 640 ? 260 : 360;
-    const cardGap = window.innerWidth < 640 ? 30 : 60;
+    const isMobile = window.innerWidth < 640;
+    const isSmallMobile = window.innerWidth < 380;
+    const cardWidth = isSmallMobile ? 220 : (isMobile ? 260 : 360);
+    const cardHeight = isSmallMobile ? 150 : (isMobile ? 175 : 240);
+    const cardGap = isSmallMobile ? 16 : (isMobile ? 24 : 60);
     const cardSpacing = cardWidth + cardGap;
     const totalTrackWidth = listToRender.length * cardSpacing;
 
     const cardsDOM = listToRender.map((photo, i) => {
       const card = document.createElement('div');
       card.className = 'carousel-card';
-      if (window.innerWidth < 640) {
-        card.style.width = '260px';
-        card.style.height = '180px';
-      }
+      card.style.width = `${cardWidth}px`;
+      card.style.height = `${cardHeight}px`;
       card.innerHTML = `<img src="${photo.url}" alt="Foto ${(i % photos.length) + 1}" loading="lazy">`;
       carouselScene.appendChild(card);
       return card;
@@ -126,36 +158,36 @@
     const speed = 0.7; // Constant slow smooth speed (pixels per frame)
 
     function tick() {
-      if (!isPaused) {
+      if (!isPaused && !isDragging) {
         tickerOffset += speed;
-        if (tickerOffset >= totalTrackWidth) {
-          tickerOffset -= totalTrackWidth;
-        }
+      }
+
+      // Keep offset within track bounds smoothly
+      if (tickerOffset >= totalTrackWidth) {
+        tickerOffset -= totalTrackWidth;
+      } else if (tickerOffset < 0) {
+        tickerOffset += totalTrackWidth;
       }
 
       const viewportWidth = carouselScene.offsetWidth || window.innerWidth;
       const centerX = viewportWidth / 2;
 
       cardsDOM.forEach((card, i) => {
-        // Calculate raw X position moving left to right
         let posX = ((i * cardSpacing + tickerOffset) % totalTrackWidth);
         
-        // Wrap coordinates relative to viewport center
         if (posX > viewportWidth + cardWidth) {
           posX -= totalTrackWidth;
         }
 
         const cardCenterX = posX + cardWidth / 2;
-        const normPos = (cardCenterX - centerX) / (viewportWidth * 0.4);
+        const normPos = (cardCenterX - centerX) / (viewportWidth * (isMobile ? 0.45 : 0.4));
 
-        // 3D Coverflow curve parameters
         const rotateY = Math.min(45, Math.max(-45, -normPos * 35));
-        const translateZ = Math.max(-280, (1 - Math.abs(normPos)) * 90);
+        const translateZ = Math.max(-280, (1 - Math.abs(normPos)) * (isMobile ? 60 : 90));
         const scale = Math.max(0.65, 1 - Math.abs(normPos) * 0.22);
         const brightness = Math.max(0.6, 1 - Math.abs(normPos) * 0.3);
         const zIndex = Math.round(100 - Math.abs(normPos) * 40);
 
-        // Fade out cards at extreme edges
         let opacity = 1;
         const absNorm = Math.abs(normPos);
         if (absNorm > 1.4) {

@@ -879,58 +879,192 @@ body::before {
   background: #c0392b !important;
 }
 
-/* --- Responsive --- */
+/* --- Responsive & Mobile Optimizations --- */
 @media (max-width: 640px) {
+  /* Prevent iOS zoom on input focus */
+  input[type="text"],
+  input[type="password"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+
   .container {
     padding: 0 16px;
   }
 
   .site-header {
-    padding: 40px 0 24px;
+    padding: 32px 0 16px;
+  }
+
+  .site-title {
+    font-size: clamp(2.2rem, 9vw, 3.8rem);
+  }
+
+  .site-subtitle {
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+  }
+
+  .carousel-section {
+    margin: 16px 0 0;
   }
 
   .carousel-viewport {
-    height: 240px;
+    height: 220px;
   }
 
-  .carousel-card {
-    width: 65%;
-    height: 200px;
+  .chooser {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 4px;
+    margin: 20px auto;
+    scrollbar-width: none;
   }
 
-  .carousel-nav {
-    width: 36px;
-    height: 36px;
-    font-size: 0.9rem;
+  .chooser::-webkit-scrollbar {
+    display: none;
   }
 
   .chooser-btn {
-    padding: 8px 24px;
+    padding: 8px 20px;
     font-size: 0.85rem;
+    white-space: nowrap;
   }
 
-  .modal {
-    padding: 32px 24px 24px;
+  .wishes-section {
+    margin: 8px 0 40px;
   }
 
   .wish-card {
-    padding: 14px 16px;
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .wish-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+
+  .wish-text {
+    font-size: 0.9rem;
+    word-break: break-word;
+  }
+
+  .wish-badge {
+    padding: 3px 8px;
+    font-size: 0.7rem;
+  }
+
+  .modal {
+    padding: 28px 20px 20px;
+    max-width: 92%;
+  }
+
+  .modal-icon {
+    width: 52px;
+    height: 52px;
+    font-size: 1.5rem;
+    margin-bottom: 14px;
+  }
+
+  /* Dashboard mobile */
+  .login-card {
+    padding: 32px 20px;
+    max-width: 100%;
+  }
+
+  .login-card h1 {
+    font-size: 2.2rem;
+  }
+
+  .dash-header {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 20px 0 16px;
+  }
+
+  .dash-header h1 {
+    font-size: 1.7rem;
+  }
+
+  .dash-section {
+    padding: 18px 14px;
+    border-radius: var(--radius-md);
+  }
+
+  .settings-input-row {
+    flex-direction: row;
+    gap: 8px;
   }
 
   .add-wish-form {
     flex-direction: column;
+    gap: 8px;
   }
 
-  .dash-section {
-    padding: 20px;
+  .add-wish-form input {
+    width: 100%;
+  }
+
+  .btn-add {
+    width: 100%;
+    text-align: center;
+  }
+
+  .dash-wish-item {
+    padding: 10px 12px;
+  }
+
+  .dash-wish-text {
+    font-size: 0.88rem;
+    word-break: break-word;
+  }
+
+  .photo-upload-area {
+    padding: 20px 14px;
+  }
+
+  .photo-upload-area .upload-icon {
+    font-size: 1.6rem;
   }
 
   .photo-grid {
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 8px;
   }
 
-  .login-card {
-    padding: 36px 24px;
+  /* Make delete button permanently visible on touch screens */
+  .photo-thumb .photo-delete {
+    opacity: 0.85;
+  }
+}
+
+@media (max-width: 380px) {
+  .site-title {
+    font-size: 2.1rem;
+  }
+
+  .chooser-btn {
+    padding: 6px 14px;
+    font-size: 0.8rem;
+  }
+
+  .settings-input-row {
+    flex-direction: column;
+  }
+
+  .settings-input-row .btn-add {
+    width: 100%;
+  }
+
+  .person-row {
+    padding: 10px;
   }
 }
 
