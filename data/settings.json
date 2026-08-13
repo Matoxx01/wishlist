@@ -1,0 +1,13 @@
+{
+  "title": "Cata & Dani",
+  "people": [
+    {
+      "id": "cata",
+      "name": "Cata"
+    },
+    {
+      "id": "dani",
+      "name": "Dani"
+    }
+  ]
+}

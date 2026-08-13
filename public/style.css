@@ -62,6 +62,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -70,6 +71,7 @@ body {
   color: var(--text-primary);
   line-height: 1.6;
   min-height: 100vh;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -90,7 +92,7 @@ body::before {
 .container {
   max-width: 860px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 clamp(16px, 4vw, 24px);
   position: relative;
   z-index: 1;
 }
@@ -98,7 +100,7 @@ body::before {
 /* --- Header / Title --- */
 .site-header {
   text-align: center;
-  padding: 56px 0 32px;
+  padding: clamp(32px, 7vw, 56px) 0 clamp(16px, 4vw, 32px);
 }
 
 .site-title {
@@ -131,7 +133,7 @@ body::before {
 
 /* --- 3D Continuous Conveyor Carousel --- */
 .carousel-section {
-  margin: 28px 0 0;
+  margin: clamp(16px, 3vw, 28px) 0 0;
   position: relative;
   padding: 10px 0;
 }
@@ -139,7 +141,7 @@ body::before {
 .carousel-viewport {
   perspective: 1200px;
   perspective-origin: 50% 45%;
-  height: 320px;
+  height: clamp(200px, 46vw, 320px);
   position: relative;
   overflow: visible;
   margin: 0 auto;
@@ -889,14 +891,6 @@ body::before {
     font-size: 16px !important;
   }
 
-  .container {
-    padding: 0 16px;
-  }
-
-  .site-header {
-    padding: 32px 0 16px;
-  }
-
   .site-title {
     font-size: clamp(2.2rem, 9vw, 3.8rem);
   }
@@ -904,14 +898,6 @@ body::before {
   .site-subtitle {
     font-size: 0.8rem;
     letter-spacing: 2px;
-  }
-
-  .carousel-section {
-    margin: 16px 0 0;
-  }
-
-  .carousel-viewport {
-    height: 220px;
   }
 
   .chooser {

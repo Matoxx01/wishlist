@@ -77,6 +77,7 @@
   let tickerOffset = 0;
   let isDragging = false;
   let startX = 0;
+  let lastCarouselWidth = 0;
 
   if (carouselSection) {
     carouselSection.addEventListener('mouseenter', () => { isPaused = true; });
@@ -137,11 +138,13 @@
       listToRender = [...listToRender, ...photos];
     }
 
-    const isMobile = window.innerWidth < 640;
-    const isSmallMobile = window.innerWidth < 380;
-    const cardWidth = isSmallMobile ? 220 : (isMobile ? 260 : 360);
-    const cardHeight = isSmallMobile ? 150 : (isMobile ? 175 : 240);
-    const cardGap = isSmallMobile ? 16 : (isMobile ? 24 : 60);
+    const vw = window.innerWidth;
+    lastCarouselWidth = vw;
+    const isMobile = vw < 640;
+    // Fluid sizing: cards scale smoothly with viewport width, keeping a 3:2 ratio.
+    const cardWidth = Math.round(Math.min(360, Math.max(200, vw * 0.6)));
+    const cardHeight = Math.round(cardWidth * (2 / 3));
+    const cardGap = Math.round(Math.min(60, Math.max(16, vw * 0.05)));
     const cardSpacing = cardWidth + cardGap;
     const totalTrackWidth = listToRender.length * cardSpacing;
 
@@ -205,6 +208,22 @@
 
     tick();
   }
+
+  // Re-render the carousel when the viewport WIDTH changes (rotation / resize).
+  // Width-only check ignores the iOS URL-bar show/hide, which changes height only.
+  let resizeTimer = null;
+  const handleViewportResize = () => {
+    if (resizeTimer) clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      if (photos.length > 0 && window.innerWidth !== lastCarouselWidth) {
+        renderCarousel();
+      }
+    }, 150);
+  };
+  window.addEventListener('resize', handleViewportResize);
+  window.addEventListener('orientationchange', () => {
+    setTimeout(() => { if (photos.length > 0) renderCarousel(); }, 300);
+  });
 
   // --- Wishes ---
   const wishIcons = ['bi-gift', 'bi-stars', 'bi-star', 'bi-heart', 'bi-balloon', 'bi-gem', 'bi-flower1', 'bi-emoji-smile', 'bi-rocket', 'bi-trophy'];
