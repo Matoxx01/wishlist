@@ -227,7 +227,7 @@ app.patch('/api/wishes/:id/toggle', (req, res) => {
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const settings = readSettings();
-    const person = req.body.person || (settings.people[0] && settings.people[0].id) || 'default';
+    const person = req.query.person || req.body.person || (settings.people[0] && settings.people[0].id) || 'default';
     const dir = path.join(DATA_DIR, 'photos', person);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
     cb(null, dir);
@@ -280,7 +280,7 @@ app.post('/api/photos', requireAuth, upload.single('photo'), (req, res) => {
     return res.status(400).json({ error: 'No file uploaded' });
   }
   const settings = readSettings();
-  const person = req.body.person || (settings.people[0] && settings.people[0].id) || 'default';
+  const person = req.query.person || req.body.person || (settings.people[0] && settings.people[0].id) || 'default';
   res.status(201).json({
     filename: req.file.filename,
     person,

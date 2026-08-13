@@ -133,9 +133,9 @@
 
     async uploadPhoto(file, person) {
       const formData = new FormData();
-      formData.append('photo', file);
       formData.append('person', person);
-      const res = await fetch('/api/photos', {
+      formData.append('photo', file);
+      const res = await fetch(`/api/photos?person=${encodeURIComponent(person)}`, {
         method: 'POST',
         headers: { 'x-auth-key': authKey },
         body: formData,
