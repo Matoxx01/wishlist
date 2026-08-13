@@ -84,7 +84,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/favicon.ico', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'favicon.svg'));
+  res.sendFile(path.join(__dirname, 'public', 'favicon.png'));
 });
 
 app.get('/dashboard', (req, res) => {
