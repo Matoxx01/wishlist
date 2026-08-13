@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Dashboard de administración — Wishlist">
+  <title>wishlist — dashboard</title>
+  <link rel="stylesheet" href="/public/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+
+  <!-- Login Screen -->
+  <div class="login-screen" id="login-screen">
+    <div class="login-card">
+      <h1 id="login-title">Dashboard</h1>
+      <p class="login-subtitle">Dashboard</p>
+      <form id="login-form" autocomplete="off">
+        <div class="input-group">
+          <input type="password" id="login-password" placeholder="Contraseña" required autocomplete="off">
+        </div>
+        <p class="login-error" id="login-error">Contraseña incorrecta</p>
+        <button type="submit" class="btn-login">Entrar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div class="dashboard container" id="dashboard">
+    <!-- Header -->
+    <div class="dash-header">
+      <h1 id="dash-title"></h1>
+      <button class="btn-logout" id="btn-logout">Cerrar sesión</button>
+    </div>
+
+    <!-- Settings Section -->
+    <div class="dash-section">
+      <h2 class="dash-section-title"><i class="bi bi-gear icon"></i> Configuración</h2>
+
+      <!-- Title Setting -->
+      <div class="settings-row">
+        <label class="settings-label">Título de la página</label>
+        <div class="settings-input-row">
+          <input type="text" id="settings-title-input" class="settings-input" placeholder="Ej: Cata & Dani">
+          <button class="btn-add" id="btn-save-title">Guardar</button>
+        </div>
+      </div>
+
+      <!-- People Management -->
+      <div class="settings-row" style="margin-top:20px">
+        <label class="settings-label">Personas</label>
+        <div id="people-list"></div>
+        <div class="settings-input-row" style="margin-top:12px">
+          <input type="text" id="new-person-input" class="settings-input" placeholder="Nombre de nueva persona...">
+          <button class="btn-add" id="btn-add-person"><i class="bi bi-plus-lg"></i> Agregar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Person Chooser -->
+    <div class="chooser" id="dash-chooser"></div>
+
+    <!-- Wishes Management -->
+    <div class="dash-section">
+      <h2 class="dash-section-title"><i class="bi bi-gift icon"></i> Wishes</h2>
+      <form class="add-wish-form" id="add-wish-form" autocomplete="off">
+        <input type="text" id="new-wish-input" placeholder="Escribe un nuevo wish..." required>
+        <button type="submit" class="btn-add">Agregar</button>
+      </form>
+      <div id="dash-wishes-list"></div>
+    </div>
+
+    <!-- Photos Management -->
+    <div class="dash-section">
+      <h2 class="dash-section-title"><i class="bi bi-camera icon"></i> Fotos</h2>
+      <div class="photo-upload-area" id="photo-upload-area">
+        <i class="bi bi-cloud-arrow-up upload-icon"></i>
+        <p>Click o arrastra una imagen aquí</p>
+        <small>JPG, PNG, GIF, WebP — Max 10MB</small>
+        <input type="file" id="photo-input" accept="image/jpeg,image/png,image/gif,image/webp" hidden>
+      </div>
+      <div class="photo-grid" id="photo-grid"></div>
+    </div>
+  </div>
+
+  <script src="/public/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Wishlist — ¡Escoge un wish y hazlo realidad!">
+  <title>wishlist</title>
+  <link rel="stylesheet" href="/public/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+
+  <div class="container">
+    <!-- Header -->
+    <header class="site-header">
+      <h1 class="site-title" id="site-title"></h1>
+      <br />
+      <br />
+      <p class="site-subtitle">wishlist</p>
+    </header>
+
+    <!-- 3D Continuous Conveyor Carousel -->
+    <section class="carousel-section" id="carousel-section">
+      <div class="carousel-viewport" id="carousel-viewport">
+        <div class="carousel-scene" id="carousel-scene"></div>
+      </div>
+    </section>
+
+    <!-- Person Chooser (dynamic) -->
+    <div class="chooser" id="person-chooser"></div>
+
+    <!-- Wishes List -->
+    <section class="wishes-section">
+      <h2 class="section-title" id="wishes-title">Wishes</h2>
+      <div class="wishes-list" id="wishes-list"></div>
+    </section>
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+      <div class="modal-icon"><i class="bi bi-gift"></i></div>
+      <h2>¿Estás segur@?</h2>
+      <p>¿Estás segur@ de dar este wish?<br><span class="modal-wish-name" id="modal-wish-name"></span></p>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="modal-no">No</button>
+        <button class="btn btn-primary" id="modal-yes">Sí</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/public/app.js"></script>
+</body>
+</html>
